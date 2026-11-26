@@ -200,7 +200,7 @@ Sugestões vindas do parceiro ou dos usuários devem receber a etiqueta `feedbac
 
 ## Padrões de código
 
-Os detalhes dependem da stack, que ainda será definida. Enquanto isso, valem estas regras gerais:
+Regras gerais, válidas para o back-end e o front-end:
 
 - Nomes de variáveis, funções e arquivos descritivos e consistentes.
 - Funções curtas e com uma responsabilidade.
@@ -209,15 +209,35 @@ Os detalhes dependem da stack, que ainda será definida. Enquanto isso, valem es
 - Validar toda entrada do usuário no servidor, não só na interface.
 - Nunca guardar senha em texto puro.
 - Usar migrações para qualquer alteração do banco; não alterar o banco "na mão".
-- Adotar um formatador e um linter assim que a stack for escolhida, e rodá-los antes do commit.
+- Rodar o formatador e o linter antes do commit.
 
-> Atualizar esta seção com as ferramentas da stack escolhida.
+**Back-end (Python, FastAPI)**
+
+- Usar _type hints_ nas funções e seguir o PEP 8, com Ruff para lint e formatação.
+- Separar os modelos do banco (SQLAlchemy) dos esquemas de entrada e saída (Pydantic).
+- Regras de negócio em funções/serviços próprios, não dentro das rotas.
+- Toda alteração no banco por migração do Alembic, revisada no PR; não editar migrações já aplicadas.
+- Variáveis de ambiente para configuração e segredos (`.env` fora do Git, `.env.example` no repositório).
+
+**Front-end (React, Vite)**
+
+- Componentes funcionais pequenos e reutilizáveis, com nomes descritivos.
+- Chamadas à API concentradas em um módulo próprio, não espalhadas pelos componentes.
+- JavaScript (sem TypeScript); ESLint para lint e Prettier para formatação.
+- Tratar estados de carregamento, erro e lista vazia em toda tela que consome a API.
+- Pensar primeiro no celular (mobile first).
+
+**Contrato da API**
+
+- O contrato fica na documentação OpenAPI gerada pelo FastAPI e no `docs/api.md`, se existir.
+- Mudou rota ou formato de resposta? Atualize o contrato no mesmo PR, avise o outro integrante e peça a aprovação dos dois.
 
 ## Testes
 
 - Funcionalidades novas devem vir com testes sempre que viável, ao menos para as regras de negócio (ex.: `RN-02`, presença duplicada).
 - Correções de erro devem incluir um teste que falhava antes da correção.
 - Rode os testes localmente antes de abrir o PR.
+- Back-end: `pytest`. Front-end: Vitest e testes de componentes.
 - Teste a interface em tamanho de celular, que é o uso principal na quadra.
 
 ## Documentação

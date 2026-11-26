@@ -63,25 +63,47 @@ Escopo previsto (sujeito a ajuste após o diagnóstico; detalhes em [requisitos.
 
 ## Tecnologias
 
-A stack ainda está **em definição**. Tecnologias já previstas no plano de trabalho:
+Stack definida na issue #1 (back-end e front-end em projetos separados):
 
-- Banco de dados: PostgreSQL
-- Versionamento: Git e GitHub
-- Interface: framework web e/ou mobile (a definir)
-- Prototipação: ferramenta de design (a definir)
+| Camada | Tecnologia | Situação |
+|---|---|---|
+| Back-end | Python com FastAPI | Definido |
+| Acesso a dados | SQLAlchemy e migrações com Alembic | Definido |
+| Banco de dados | PostgreSQL | Definido (plano de trabalho) |
+| Front-end | React com Vite | Definido |
+| Linguagem do front-end | JavaScript | Definido |
+| Validação | Pydantic (back-end) | Padrão do FastAPI |
+| Autenticação | JWT, com hash seguro de senha | Definido (biblioteca de hash a escolher) |
+| Testes | pytest (back-end) | Definido |
+| Testes do front-end | Vitest | Definido |
+| Lint e formatação | Ruff (back-end) e ESLint + Prettier (front-end) | Definido |
+| Gráficos | Recharts | Definido |
+| Hospedagem do front-end | Vercel | Definido |
+| Hospedagem do back-end e do banco | Railway | Definido (configuração na issue #29) |
+| Versionamento | Git e GitHub | Definido |
 
-> Atualizar esta seção quando a decisão for tomada.
+O FastAPI gera a documentação da API automaticamente (OpenAPI), que serve de base para o contrato da issue #5.
 
 ## Como executar
 
-_A preencher quando houver código._ Esta seção deve conter:
+_Modelo a ajustar quando o código existir._
 
-1. Pré-requisitos (versões de runtime e banco)
-2. Instalação das dependências
-3. Variáveis de ambiente (copiar `.env.example` para `.env`)
-4. Criação e migração do banco
-5. Comando para iniciar a aplicação
-6. Comando para rodar os testes
+**Pré-requisitos:** Python, Node.js e PostgreSQL (versões a registrar aqui).
+
+**Back-end** (`backend/`)
+
+1. Criar e ativar o ambiente virtual e instalar as dependências.
+2. Copiar `.env.example` para `.env` e preencher a conexão com o banco.
+3. Aplicar as migrações do Alembic.
+4. Iniciar a API (a documentação interativa fica em `/docs`).
+5. Rodar os testes com `pytest`.
+
+**Front-end** (`frontend/`)
+
+1. Instalar as dependências (`npm install`).
+2. Copiar `.env.example` para `.env` e informar o endereço da API.
+3. Iniciar o servidor de desenvolvimento do Vite.
+4. Rodar os testes e o lint.
 
 ## Estrutura do repositório
 
@@ -93,7 +115,8 @@ _A preencher quando houver código._ Esta seção deve conter:
 ├── docs/
 │   ├── descoberta.md
 │   └── requisitos.md
-└── (código-fonte, a definir conforme a stack)
+├── backend/     # FastAPI, SQLAlchemy e Alembic
+└── frontend/    # React com Vite
 ```
 
 ## Fluxo de trabalho

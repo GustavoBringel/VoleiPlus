@@ -30,7 +30,7 @@ Nas issues, o campo **Resp.** usa o nome de quem é responsável. Regra de ouro:
 
 ## Etiquetas
 
-`feature` · `bug` · `docs` · `melhoria` · `decisão` · `bloqueado` · `prioridade-alta` · `feedback-parceiro` · `back-end` · `front-end` · `banco` · `ux` · `teste` · `descoberta`
+`feature` · `bug` · `docs` · `chore` · `melhoria` · `decisão` · `bloqueado` · `prioridade-alta` · `feedback-parceiro` · `back-end` · `front-end` · `banco` · `ux` · `teste` · `descoberta`
 
 ## Visão geral
 
@@ -39,6 +39,7 @@ Nas issues, o campo **Resp.** usa o nome de quem é responsável. Regra de ouro:
 | 1 | Definir a stack e registrar a decisão | Ambos | M0 | RNF-03, RNF-10 |
 | 2 | Configurar o repositório e a organização do projeto | Flavio | M0 | RNF-09 |
 | 3 | Criar a base do projeto, linter e testes automáticos | Flavio | M0 | RNF-09 |
+| 36 | Criar a base do front-end, linter e testes automáticos | Gustavo | M0 | RNF-03, RNF-09 |
 | 4 | Prototipar as telas do MVP | Gustavo | M0 | RNF-01, RNF-11 |
 | 5 | Definir o contrato da API | Ambos | M0 | todos os RF |
 | 6 | Modelar o banco de dados e criar as migrações | Flavio | M0 | RNF-10, RN-01 a RN-06 |
@@ -96,11 +97,26 @@ Nas issues, o campo **Resp.** usa o nome de quem é responsável. Regra de ouro:
 ### #3 — Criar a base do projeto, linter e testes automáticos
 **Resp.:** Flavio · **Etiquetas:** `chore`, `back-end` · **Milestone:** M0 · **Req.:** RNF-09
 **Depende de:** #1
-**Descrição:** estrutura inicial do código, formatador, linter, execução de testes e integração contínua simples.
+**Descrição:** estrutura inicial do código, formatador, linter, execução de testes e integração contínua simples. Escopo: back-end (a base do front-end está na #36).
 **Aceite:**
 - [ ] Projeto roda localmente seguindo o README.
 - [ ] Linter e testes executam no pull request.
 - [ ] README e CONTRIBUTING atualizados com os comandos.
+
+### #36 — Criar a base do front-end, linter e testes automáticos
+**Resp.:** Gustavo · **Etiquetas:** `chore`, `front-end` · **Milestone:** M0 · **Req.:** RNF-03, RNF-09
+**Depende de:** #1
+**Descrição:** criar o projeto React com Vite (JavaScript) em `frontend/`, com ESLint, Prettier e Vitest, variáveis de ambiente e um ponto único para chamadas à API. A #3 cobre a base do back-end; esta cobre o front-end, e a #14 passa a depender desta.
+**Aceite:**
+- [ ] Projeto criado em `frontend/` com Vite e React (JavaScript), rodando com `npm run dev`.
+- [ ] ESLint e Prettier configurados, com scripts `lint` e `format` e sem erros no código inicial.
+- [ ] Vitest configurado, com script `test` e ao menos um teste de exemplo passando.
+- [ ] `.env.example` com o endereço da API (variável com prefixo `VITE_`) e `.env` no `.gitignore`.
+- [ ] Módulo único para chamadas à API (ex.: `src/services/api.js`), com a URL base vinda do ambiente.
+- [ ] Estrutura de pastas definida (páginas, componentes, serviços) e descrita no README.
+- [ ] Lint e testes do front-end rodando no CI do pull request, junto com o job do back-end da #3.
+- [ ] README e CONTRIBUTING atualizados com os comandos do front-end.
+- [ ] Opcional: repositório conectado à Vercel com preview por pull request (ou registrado na #29).
 
 ### #4 — Prototipar as telas do MVP
 **Resp.:** Gustavo · **Etiquetas:** `ux`, `front-end` · **Milestone:** M0 · **Req.:** RNF-01, RNF-11
@@ -198,7 +214,7 @@ Nas issues, o campo **Resp.** usa o nome de quem é responsável. Regra de ouro:
 
 ### #14 — Layout base, navegação e responsividade
 **Resp.:** Gustavo · **Etiquetas:** `feature`, `front-end`, `ux` · **Milestone:** M1 · **Req.:** RNF-01, RNF-03, RNF-11
-**Depende de:** #3, #4
+**Depende de:** #4, #36
 **Aceite:**
 - [ ] Estrutura de páginas, menu e rotas protegidas.
 - [ ] Funciona em celular e computador.
@@ -401,7 +417,7 @@ Nas issues, o campo **Resp.** usa o nome de quem é responsável. Regra de ouro:
 
 ## Ordem sugerida de execução
 
-1. **Semana inicial:** #1, #2, #7 em paralelo; depois #3, #4 e #6.
+1. **Semana inicial:** #1, #2, #7 em paralelo; depois #3, #4, #6 e #36.
 2. **Em seguida:** #5 (contrato) e #8 (diagnóstico); fechar com #9.
 3. **Núcleo:** #10 e #14 em paralelo, depois #11–#13 (Flavio) e #15–#17 (Gustavo).
 4. **Treinos e presença:** #18–#19 (Flavio) e #20–#21 (Gustavo).
