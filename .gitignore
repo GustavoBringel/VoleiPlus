@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testes e coverage
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Build / Distribution
+build/
+dist/
+*.egg-info/
+*.whl
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Migrações - não versionar arquivos gerados automaticamente em produção
+# migrations/versions/*.py  # COMENTE ESTA LINHA PARA VERSIONAR MIGRAÇÕES
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dados sensíveis / reais (NUNCA COMMITAR)
+data/
+*.csv
+*.json
+secrets/
+
+# Backups
+*.bak
+*.backup
