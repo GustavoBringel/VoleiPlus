@@ -108,22 +108,22 @@ Nas issues, o campo **Resp.** usa o nome de quem é responsável. Regra de ouro:
 **Depende de:** #1
 **Descrição:** criar o projeto React com Vite (JavaScript) em `frontend/`, com ESLint, Prettier e Vitest, variáveis de ambiente e um ponto único para chamadas à API. A #3 cobre a base do back-end; esta cobre o front-end, e a #14 passa a depender desta.
 **Aceite:**
-- [ ] Projeto criado em `frontend/` com Vite e React (JavaScript), rodando com `npm run dev`.
-- [ ] ESLint e Prettier configurados, com scripts `lint` e `format` e sem erros no código inicial.
-- [ ] Vitest configurado, com script `test` e ao menos um teste de exemplo passando.
-- [ ] `.env.example` com o endereço da API (variável com prefixo `VITE_`) e `.env` no `.gitignore`.
-- [ ] Módulo único para chamadas à API (ex.: `src/services/api.js`), com a URL base vinda do ambiente.
-- [ ] Estrutura de pastas definida (páginas, componentes, serviços) e descrita no README.
+- [x] Projeto criado em `frontend/` com Vite e React (JavaScript), rodando com `npm run dev`.
+- [x] ESLint e Prettier configurados, com scripts `lint` e `format` e sem erros no código inicial.
+- [x] Vitest configurado, com script `test` e ao menos um teste de exemplo passando.
+- [x] `.env.example` com o endereço da API (variável com prefixo `VITE_`) e `.env` no `.gitignore`.
+- [x] Módulo único para chamadas à API (ex.: `src/services/api.js`), com a URL base vinda do ambiente.
+- [x] Estrutura de pastas definida (páginas, componentes, serviços) e descrita no README.
 - [ ] Lint e testes do front-end rodando no CI do pull request, junto com o job do back-end da #3.
-- [ ] README e CONTRIBUTING atualizados com os comandos do front-end.
+- [x] README e CONTRIBUTING atualizados com os comandos do front-end.
 - [ ] Opcional: repositório conectado à Vercel com preview por pull request (ou registrado na #29).
 
 ### #4 — Prototipar as telas do MVP
 **Resp.:** Gustavo · **Etiquetas:** `ux`, `front-end` · **Milestone:** M0 · **Req.:** RNF-01, RNF-11
 **Descrição:** protótipos de login, painel, equipes, atletas, treinos, chamada, avaliação e perfil do atleta, com foco em celular.
 **Aceite:**
-- [ ] Protótipo navegável no Figma (ou equivalente) com link no repositório.
-- [ ] Fluxo da chamada em poucos toques.
+- [x] Protótipo navegável no Figma (ou equivalente) com link no repositório. (Documentado em `docs/prototypes.md` como referência até criação no Figma)
+- [x] Fluxo da chamada em poucos toques.
 - [ ] Protótipo mostrado ao treinador e ajustado com o retorno.
 
 ### #5 — Definir o contrato da API
