@@ -5,6 +5,7 @@ import App from './App';
 describe('App', () => {
   it('renders without crashing', () => {
     render(<App />);
-    expect(screen.getByText('Volei+')).toBeInTheDocument();
+    // App redirects to login when not authenticated
+    expect(screen.getByRole('heading', { name: 'Entrar' })).toBeInTheDocument();
   });
 });
