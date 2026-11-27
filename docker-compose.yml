@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://volei_user:volei_pass@db:5432/volei_plus
+      - SECRET_KEY=${SECRET_KEY:-gere-uma-chave-secreta-forte}
+      - APP_ENV=production
+      - DEBUG=false
+      - CORS_ORIGINS=["https://seu-frontend.com"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./src:/app/src  # para desenvolvimento com reload
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=volei_user
+      - POSTGRES_PASSWORD=volei_pass
+      - POSTGRES_DB=volei_plus
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U volei_user -d volei_plus"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

@@ -1,0 +1,99 @@
+# GitHub Actions CI - Vôlei+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: volei_user
+          POSTGRES_PASSWORD: volei_pass
+          POSTGRES_DB: volei_plus_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Aguardar PostgreSQL
+        run: |
+          for i in {1..30}; do
+            if pg_isready -h localhost -p 5432 -U volei_user; then
+              echo "PostgreSQL pronto"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Configurar variáveis de ambiente
+        run: |
+          echo "DATABASE_URL=postgresql://volei_user:volei_pass@localhost:5432/volei_plus_test" >> $GITHUB_ENV
+          echo "SECRET_KEY=test-secret-key-for-ci-only" >> $GITHUB_ENV
+          echo "APP_ENV=test" >> $GITHUB_ENV
+          echo "DEBUG=false" >> $GITHUB_ENV
+
+      - name: Rodar migrações
+        run: alembic upgrade head
+
+      - name: Rodar linter (ruff)
+        run: ruff check src tests
+
+      - name: Verificar formatação (black)
+        run: black --check src tests
+
+      - name: Rodar testes com coverage
+        run: |
+          pytest --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=70
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: false
+
+  # Job separado para type checking (mais lento)
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Rodar mypy
+        run: mypy src
