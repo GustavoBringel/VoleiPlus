@@ -240,6 +240,30 @@ Regras gerais, válidas para o back-end e o front-end:
 - Back-end: `pytest`. Front-end: Vitest e testes de componentes.
 - Teste a interface em tamanho de celular, que é o uso principal na quadra.
 
+**Comandos úteis do front-end**
+
+```bash
+cd frontend
+
+# Instalar dependências
+npm install
+
+# Desenvolvimento
+npm run dev
+
+# Testes
+npm run test           # Executa todos os testes
+npm run test:ui        # Abre interface visual do Vitest
+
+# Lint e formatação
+npm run lint           # ESLint
+npm run format         # Prettier
+
+# Build
+npm run build          # Gera pasta dist/ para produção
+npm run preview        # Preview do build de produção
+```
+
 ## Documentação
 
 Atualize a documentação na mesma mudança que altera o comportamento:

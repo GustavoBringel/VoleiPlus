@@ -86,24 +86,56 @@ O FastAPI gera a documentação da API automaticamente (OpenAPI), que serve de b
 
 ## Como executar
 
-_Modelo a ajustar quando o código existir._
+**Pré-requisitos:** Node.js 18+ e npm
 
-**Pré-requisitos:** Python, Node.js e PostgreSQL (versões a registrar aqui).
+**Front-end** (`frontend/`)
+
+1. Instalar as dependências:
+   ```bash
+   cd frontend
+   npm install
+   ```
+2. Copiar `.env.example` para `.env` e informar o endereço da API:
+   ```bash
+   cp .env.example .env
+   # Editar .env com a URL da API (ex: VITE_API_URL=http://localhost:3000/api)
+   ```
+3. Iniciar o servidor de desenvolvimento do Vite:
+   ```bash
+   npm run dev
+   ```
+   A aplicação estará disponível em `http://localhost:5173`
+
+4. Rodar os testes:
+   ```bash
+   npm run test
+   ```
+
+5. Rodar o linter:
+   ```bash
+   npm run lint
+   ```
+
+6. Formatar o código com Prettier:
+   ```bash
+   npm run format
+   ```
+
+7. Build de produção:
+   ```bash
+   npm run build
+   ```
+   Os arquivos otimizados serão gerados na pasta `dist/`.
 
 **Back-end** (`backend/`)
+
+_EM DESENVOLVIMENTO - aguardando issue #3_
 
 1. Criar e ativar o ambiente virtual e instalar as dependências.
 2. Copiar `.env.example` para `.env` e preencher a conexão com o banco.
 3. Aplicar as migrações do Alembic.
 4. Iniciar a API (a documentação interativa fica em `/docs`).
 5. Rodar os testes com `pytest`.
-
-**Front-end** (`frontend/`)
-
-1. Instalar as dependências (`npm install`).
-2. Copiar `.env.example` para `.env` e informar o endereço da API.
-3. Iniciar o servidor de desenvolvimento do Vite.
-4. Rodar os testes e o lint.
 
 ## Estrutura do repositório
 
