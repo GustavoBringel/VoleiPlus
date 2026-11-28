@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Guia de contribuição
+    url: https://github.com/GustavoBringel/VoleiPlus/blob/develop/CONTRIBUTING.md
+    about: Consulte o fluxo de trabalho antes de abrir uma issue.
