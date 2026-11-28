@@ -22,7 +22,7 @@ Obrigado por contribuir com o Vôlei+. Este guia define como a equipe trabalha n
 
 1. **O usuário vem primeiro.** Funcionalidades nascem de necessidades validadas com o parceiro (ver [descoberta.md](docs/descoberta.md)), não de suposições.
 2. **Pequeno e frequente.** Mudanças pequenas e integradas com frequência são mais fáceis de revisar e menos arriscadas.
-3. **A `main` sempre funciona.** Nada quebrado vai para a branch principal.
+3. **A `develop` sempre funciona.** Nada quebrado vai para a branch principal.
 4. **Tudo rastreável.** Cada mudança de código deve poder ser ligada a uma issue e a um requisito (ex.: `RF-15`).
 5. **Respeito e colaboração.** Revisões criticam o código, não a pessoa.
 
@@ -42,25 +42,25 @@ Obrigado por contribuir com o Vôlei+. Este guia define como a equipe trabalha n
 ## Fluxo de trabalho
 
 1. Escolha uma issue (ou crie uma) e atribua a você.
-2. Atualize a `main` local:
+2. Atualize a `develop` local:
 
    ```bash
-   git checkout main
-   git pull origin main
+   git checkout develop
+   git pull origin develop
    ```
 
-3. Crie uma branch a partir da `main`:
+3. Crie uma branch a partir de `develop`:
 
    ```bash
    git checkout -b feat/chamada-presenca
    ```
 
 4. Desenvolva em commits pequenos, com testes quando aplicável.
-5. Antes de abrir o PR, atualize sua branch com a `main` e resolva conflitos:
+5. Antes de abrir o PR, atualize sua branch com `develop` e resolva conflitos:
 
    ```bash
    git fetch origin
-   git rebase origin/main
+   git rebase origin/develop
    ```
 
 6. Envie a branch e abra o pull request:
@@ -74,7 +74,7 @@ Obrigado por contribuir com o Vôlei+. Este guia define como a equipe trabalha n
 
 ## Branches
 
-A `main` é protegida: não se faz push direto nela.
+A `develop` é protegida: mudanças entram por pull request com ao menos uma aprovação; não se faz push direto nela.
 
 | Prefixo | Uso | Exemplo |
 |---|---|---|

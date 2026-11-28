@@ -1,0 +1,35 @@
+name: Relatar um problema
+description: Reporte um comportamento incorreto ou inesperado.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: O que aconteceu?
+      description: Descreva o comportamento observado.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: O que deveria acontecer?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como reproduzir
+      placeholder: "1. ...\n2. ..."
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Navegador, aparelho ou versão relevante.
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Capturas ou logs
+      description: Não inclua dados pessoais ou reais de atletas.
