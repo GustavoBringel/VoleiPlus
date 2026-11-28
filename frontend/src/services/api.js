@@ -3,7 +3,10 @@
  * A URL base vem da variável de ambiente VITE_API_URL.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1').replace(
+  /\/$/,
+  ''
+);
 
 class ApiError extends Error {
   constructor(message, status, data) {
@@ -16,17 +19,18 @@ class ApiError extends Error {
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
+  const { headers: optionHeaders, ...requestOptions } = options;
 
   const config = {
+    ...requestOptions,
     headers: {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...optionHeaders,
     },
-    ...options,
   };
 
   // Adiciona token de autenticação se existir
-  const token = localStorage.getItem('auth_token');
+  const token = globalThis.localStorage?.getItem('auth_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -41,7 +45,13 @@ async function request(endpoint, options = {}) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new ApiError(data.message || `Erro ${response.status}`, response.status, data);
+    const detail = data.detail;
+    const message = Array.isArray(detail)
+      ? detail.map(issue => `${issue.loc?.slice(1).join('.')}: ${issue.msg}`).join('; ')
+      : typeof detail === 'string'
+        ? detail
+        : data.message || `Erro ${response.status}`;
+    throw new ApiError(message, response.status, data);
   }
 
   return data;
@@ -83,12 +93,18 @@ export const api = {
 
   // Atletas
   athletes: {
-    list: teamId => request(`/teams/${teamId}/athletes`),
+    list: (teamId, { activeOnly = true, search } = {}) => {
+      const params = new URLSearchParams();
+      if (teamId != null) params.set('team_id', teamId);
+      params.set('active_only', activeOnly);
+      if (search) params.set('search', search);
+      return request(`/athletes?${params.toString()}`);
+    },
     get: id => request(`/athletes/${id}`),
     create: (teamId, athleteData) =>
-      request(`/teams/${teamId}/athletes`, {
+      request('/athletes', {
         method: 'POST',
-        body: JSON.stringify(athleteData),
+        body: JSON.stringify({ ...athleteData, team_id: teamId }),
       }),
     update: (id, athleteData) =>
       request(`/athletes/${id}`, {
@@ -100,12 +116,13 @@ export const api = {
 
   // Treinos
   trainings: {
-    list: teamId => request(`/teams/${teamId}/trainings`),
+    list: teamId =>
+      request(`/trainings${teamId == null ? '' : `?team_id=${encodeURIComponent(teamId)}`}`),
     get: id => request(`/trainings/${id}`),
     create: (teamId, trainingData) =>
-      request(`/teams/${teamId}/trainings`, {
+      request('/trainings', {
         method: 'POST',
-        body: JSON.stringify(trainingData),
+        body: JSON.stringify({ ...trainingData, team_id: teamId }),
       }),
     update: (id, trainingData) =>
       request(`/trainings/${id}`, {
@@ -118,25 +135,31 @@ export const api = {
   // Presença
   attendance: {
     register: (trainingId, attendanceData) =>
-      request(`/trainings/${trainingId}/attendance`, {
+      request('/attendances', {
         method: 'POST',
-        body: JSON.stringify(attendanceData),
+        body: JSON.stringify({ ...attendanceData, training_id: trainingId }),
       }),
-    get: trainingId => request(`/trainings/${trainingId}/attendance`),
-    update: (trainingId, attendanceData) =>
-      request(`/trainings/${trainingId}/attendance`, {
+    registerBulk: (trainingId, attendances) =>
+      request('/attendances/bulk', {
+        method: 'POST',
+        body: JSON.stringify({ training_id: trainingId, attendances }),
+      }),
+    get: trainingId => request(`/attendances/training/${trainingId}`),
+    update: (trainingId, athleteId, attendanceData) =>
+      request(`/attendances/${trainingId}/athletes/${athleteId}`, {
         method: 'PUT',
         body: JSON.stringify(attendanceData),
       }),
+    stats: athleteId => request(`/attendances/athlete/${athleteId}/stats`),
   },
 
   // Avaliações
   evaluations: {
-    list: athleteId => request(`/athletes/${athleteId}/evaluations`),
+    list: athleteId => request(`/evaluations/athlete/${athleteId}`),
     create: (athleteId, evaluationData) =>
-      request(`/athletes/${athleteId}/evaluations`, {
+      request('/evaluations', {
         method: 'POST',
-        body: JSON.stringify(evaluationData),
+        body: JSON.stringify({ ...evaluationData, athlete_id: athleteId }),
       }),
     update: (id, evaluationData) =>
       request(`/evaluations/${id}`, {
@@ -149,7 +172,7 @@ export const api = {
   // Perfil e evolução do atleta
   profile: {
     get: athleteId => request(`/athletes/${athleteId}/profile`),
-    evolution: athleteId => request(`/athletes/${athleteId}/evolution`),
+    evolution: athleteId => request(`/evaluations/athlete/${athleteId}/evolution`),
   },
 };
 

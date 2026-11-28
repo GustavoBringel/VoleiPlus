@@ -33,30 +33,37 @@ export function AuthProvider({ children }) {
   const login = useCallback(async credentials => {
     setError(null);
     try {
-      const response = await api.auth.login(credentials);
-      const { token, user: userData } = response;
+      const { access_token: token } = await api.auth.login(credentials);
       localStorage.setItem('auth_token', token);
+      const userData = await api.auth.me();
       setUser(userData);
       return { success: true };
     } catch (err) {
+      localStorage.removeItem('auth_token');
+      setUser(null);
       setError(err.message || 'Erro ao fazer login');
       return { success: false, error: err.message };
     }
   }, []);
 
-  const register = useCallback(async userData => {
-    setError(null);
-    try {
-      const response = await api.auth.register(userData);
-      const { token, user: newUser } = response;
-      localStorage.setItem('auth_token', token);
-      setUser(newUser);
-      return { success: true };
-    } catch (err) {
-      setError(err.message || 'Erro ao cadastrar');
-      return { success: false, error: err.message };
-    }
-  }, []);
+  const register = useCallback(
+    async userData => {
+      setError(null);
+      try {
+        const credentials = {
+          name: userData.name,
+          email: userData.email,
+          password: userData.password,
+        };
+        await api.auth.register(credentials);
+        return await login(credentials);
+      } catch (err) {
+        setError(err.message || 'Erro ao cadastrar');
+        return { success: false, error: err.message };
+      }
+    },
+    [login]
+  );
 
   const logout = useCallback(async () => {
     try {

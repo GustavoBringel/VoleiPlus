@@ -29,8 +29,8 @@ export default function Register() {
     }
     if (!formData.password) {
       errors.password = 'Senha é obrigatória';
-    } else if (formData.password.length < 6) {
-      errors.password = 'Senha deve ter pelo menos 6 caracteres';
+    } else if (formData.password.length < 8) {
+      errors.password = 'Senha deve ter pelo menos 8 caracteres';
     }
     if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = 'As senhas não coincidem';
