@@ -86,7 +86,7 @@ jobs:
       - name: Aplicar migrações
         working-directory: backend
         env:
-          DATABASE_URL: postgresql://volei_user:volei_pass@localhost:5432/volei_plus_test
+          DATABASE_URL: postgresql+psycopg2://volei_user:volei_pass@localhost:5432/volei_plus_test
           SECRET_KEY: ci-only-secret-key
           APP_ENV: test
           DEBUG: "false"
@@ -95,7 +95,7 @@ jobs:
       - name: Executar lint, formatação e testes
         working-directory: backend
         env:
-          DATABASE_URL: postgresql://volei_user:volei_pass@localhost:5432/volei_plus_test
+          DATABASE_URL: postgresql+psycopg2://volei_user:volei_pass@localhost:5432/volei_plus_test
           SECRET_KEY: ci-only-secret-key
           APP_ENV: test
           DEBUG: "false"
