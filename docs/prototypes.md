@@ -1,7 +1,7 @@
 # Protótipos das Telas do MVP — Vôlei+
 
 > Documento complementar ao [issues.md](../issues.md#4--prototipar-as-telas-do-mvp) e [requisitos.md](requisitos.md).
-> Protótipos descritos em texto/markdown para servir de referência até a criação no Figma.
+> Este repositório contém um [protótipo navegável local](prototipo/index.html), feito com HTML, CSS e JavaScript e sem dependências. Os dados são fictícios; não há conexão com a API. As descrições abaixo registram os fluxos e critérios de interface.
 
 ## Princípios de UX
 
@@ -16,6 +16,7 @@
 ## 1. Login e Cadastro
 
 ### Login
+
 ```
 ┌─────────────────────┐
 │       Vôlei+        │
@@ -41,6 +42,7 @@
 ```
 
 ### Cadastro
+
 ```
 ┌─────────────────────┐
 │  ←  Cadastrar-se    │
@@ -74,6 +76,7 @@
 ```
 
 **Estados:**
+
 - Validação inline (e-mail inválido, senhas não coincidem, e-mail já cadastrado)
 - Loading no botão durante requisição
 - Toast de erro/sucesso
@@ -107,6 +110,7 @@
 ```
 
 **Estados:**
+
 - Vazio: "Você ainda não tem equipes. Toque em + para criar a primeira."
 - Loading: skeleton cards
 - Erro: toast + botão "Tentar novamente"
@@ -116,6 +120,7 @@
 ## 3. Equipes
 
 ### Lista de Equipes (aba dentro do painel ou tela dedicada)
+
 ```
 ┌─────────────────────┐
 │  ←  Equipes    ➕   │
@@ -138,6 +143,7 @@
 ```
 
 ### Criar/Editar Equipe
+
 ```
 ┌─────────────────────┐
 │  ←  Nova Equipe     │
@@ -164,6 +170,7 @@
 ```
 
 ### Confirmar Inativação/Exclusão
+
 ```
 ┌─────────────────────┐
 │  Inativar equipe?   │
@@ -184,6 +191,7 @@
 ## 4. Atletas
 
 ### Lista de Atletas (por equipe)
+
 ```
 ┌─────────────────────┐
 │  ←  Falcões    ➕   │
@@ -209,6 +217,7 @@
 ```
 
 ### Criar/Editar Atleta
+
 ```
 ┌─────────────────────┐
 │  ←  Novo Atleta     │
@@ -243,6 +252,7 @@
 ## 5. Treinos
 
 ### Lista de Treinos (por equipe, ordem cronológica)
+
 ```
 ┌─────────────────────┐
 │  ←  Treinos     ➕  │
@@ -263,6 +273,7 @@
 ```
 
 ### Criar/Editar Treino
+
 ```
 ┌─────────────────────┐
 │  ←  Novo Treino     │
@@ -302,6 +313,7 @@
 ## 6. Chamada (Mobile First) — **Tela Crítica**
 
 ### Lista de Atletas para Marcar Presença
+
 ```
 ┌─────────────────────┐
 │  ←  Chamada 15/03  ✓│
@@ -329,6 +341,7 @@
 ```
 
 ### Confirmação de Salvamento
+
 ```
 ┌─────────────────────┐
 │  ✓  Chamada salva!  │
@@ -342,10 +355,12 @@
 ```
 
 ### Corrigir Chamada (após salva)
+
 - Mesma tela, mas com dados pré-preenchidos
 - Botão "Atualizar chamada" em vez de "Salvar"
 
 **Requisitos críticos:**
+
 - ✓ Marcar todos presentes em 1 toque
 - ✓ Toggle presença/ausência em 1 toque por atleta
 - ✓ Atletas inativos não aparecem
@@ -357,6 +372,7 @@
 ## 7. Avaliação de Fundamentos
 
 ### Formulário de Avaliação
+
 ```
 ┌─────────────────────┐
 │  ←  Avaliar Ana   ✓ │
@@ -433,6 +449,7 @@
 ```
 
 **Estados vazios:**
+
 - Sem avaliações: "Nenhuma avaliação registrada. Toque em 'Nova Avaliação' para começar."
 - Sem presença: "Nenhum treino com chamada registrada."
 
@@ -468,6 +485,7 @@
 ```
 
 **Mensagem para poucos dados:**
+
 ```
 ┌─────────────────────┐
 │  📈 Passe           │
@@ -509,6 +527,7 @@
 ## Fluxos Principais (User Journeys)
 
 ### Fluxo 1: Primeira vez (Onboarding)
+
 1. Abre app → Tela de Login
 2. "Não tem conta?" → Cadastro
 3. Preenche dados → Cria conta
@@ -519,6 +538,7 @@
 8. "Chamada" → Registra presença
 
 ### Fluxo 2: Dia de Treino (Uso Recorrente)
+
 1. Abre app → Dashboard
 2. Toca na equipe → Lista de treinos
 3. Toca em "Chamada" no treino de hoje
@@ -527,6 +547,7 @@
 6. (Opcional) Toca em atleta → "Nova Avaliação"
 
 ### Fluxo 3: Acompanhamento de Evolução
+
 1. Abre app → Dashboard
 2. Toca na equipe → Lista de atletas
 3. Toca no atleta → Perfil com histórico
@@ -537,18 +558,14 @@
 
 ## Próximos Passos
 
-1. [ ] Criar protótipos navegáveis no **Figma** com base nestas descrições
-2. [ ] Compartilhar link do Figma no repositório (atualizar este doc)
+1. [x] Criar protótipo navegável equivalente no repositório
+2. [x] Compartilhar o caminho do protótipo neste documento
 3. [ ] Apresentar ao treinador parceiro
 4. [ ] Coletar feedback e ajustar
 5. [ ] Validar fluxos críticos (especialmente **Chamada**)
 
 ---
 
-## Link do Figma
+## Link do protótipo navegável
 
-> **PENDENTE**: Inserir link do protótipo Figma aqui após criação.
-
-```
-https://www.figma.com/file/XXXXXXXXXXXXXXXXXXXX/VoleiPlus-Prototipos
-```
+Abra [`docs/prototipo/index.html`](prototipo/index.html) diretamente no navegador. Para revisar o fluxo, use **Equipes → Atletas → Avaliar** ou **Treinos → Fazer chamada**. Os nomes e dados exibidos são fictícios.

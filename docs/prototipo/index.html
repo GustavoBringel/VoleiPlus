@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101d34" />
+    <title>Protótipo navegável — Vôlei+</title>
+    <style>
+      :root {
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: #17233b;
+        background: #f4f7fb;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        --navy: #101d34;
+        --blue: #3157c8;
+        --muted: #718096;
+        --border: #e4eaf2;
+        --surface: #fff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 236px 1fr;
+      }
+      aside {
+        background: var(--navy);
+        color: #fff;
+        padding: 28px 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px 30px;
+        font-size: 21px;
+        font-weight: 750;
+      }
+      .ball {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #f2a643;
+        color: var(--navy);
+      }
+      .nav {
+        display: grid;
+        gap: 7px;
+      }
+      .nav button {
+        border: 0;
+        color: #c7d2e5;
+        background: transparent;
+        padding: 12px;
+        text-align: left;
+        border-radius: 10px;
+      }
+      .nav button:hover,
+      .nav button.active {
+        color: #fff;
+        background: #263957;
+      }
+      main {
+        min-width: 0;
+      }
+      header {
+        min-height: 72px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px clamp(18px, 4vw, 48px);
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+      header strong {
+        font-size: 14px;
+      }
+      .user {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .content {
+        max-width: 1100px;
+        padding: 32px clamp(18px, 4vw, 48px) 96px;
+        margin: auto;
+      }
+      .screen {
+        display: none;
+      }
+      .screen.active {
+        display: block;
+        animation: enter 0.18s ease-out;
+      }
+      @keyframes enter {
+        from {
+          opacity: 0.5;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      h1 {
+        margin: 0 0 7px;
+        font-size: clamp(24px, 4vw, 32px);
+        letter-spacing: -0.03em;
+        color: var(--navy);
+      }
+      .intro {
+        margin: 0 0 26px;
+        color: var(--muted);
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin: 25px 0 14px;
+      }
+      .row h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+        gap: 15px;
+      }
+      .card {
+        padding: 20px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 5px 18px #20385d08;
+      }
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 17px;
+      }
+      .card p {
+        margin: 4px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .card .card-actions {
+        margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .button {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 15px;
+        background: var(--blue);
+        color: #fff;
+        font-weight: 650;
+      }
+      .button.secondary {
+        color: #29479c;
+        background: #edf2ff;
+      }
+      .button.selected {
+        color: #fff;
+        background: #3157c8;
+      }
+      .button.ghost {
+        color: var(--muted);
+        background: #f1f4f8;
+      }
+      .button:focus-visible,
+      .nav button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #f2a643;
+        outline-offset: 2px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 20px;
+        background: #eaf7ef;
+        color: #237543;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .attendance-list {
+        display: grid;
+        gap: 10px;
+      }
+      .attendance-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 15px 17px;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .attendance-item label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 650;
+      }
+      .attendance-item input {
+        width: 23px;
+        height: 23px;
+        accent-color: var(--blue);
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+      .metric {
+        display: grid;
+        gap: 4px;
+      }
+      .metric strong {
+        color: var(--navy);
+        font-size: 26px;
+      }
+      .metric span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .chart {
+        display: flex;
+        align-items: end;
+        gap: 10px;
+        height: 145px;
+        padding: 12px 8px 0;
+      }
+      .bar {
+        flex: 1;
+        min-width: 20px;
+        border-radius: 7px 7px 0 0;
+        background: linear-gradient(#6684e4, #3157c8);
+        position: relative;
+      }
+      .bar span {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--muted);
+        font-size: 11px;
+        padding-top: 7px;
+      }
+      .notice {
+        color: var(--muted);
+        background: #f5f7fb;
+        border-radius: 10px;
+        padding: 14px;
+      }
+      #toast {
+        position: fixed;
+        bottom: 22px;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        transition: 0.2s;
+        padding: 13px 18px;
+        color: white;
+        background: var(--navy);
+        border-radius: 12px;
+        box-shadow: 0 8px 24px #101d3440;
+        pointer-events: none;
+      }
+      #toast.show {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+      .mobile-nav {
+        display: none;
+      }
+      @media (max-width: 720px) {
+        .shell {
+          display: block;
+        }
+        aside {
+          display: none;
+        }
+        header {
+          min-height: 60px;
+        }
+        .content {
+          padding-top: 24px;
+        }
+        .mobile-nav {
+          position: fixed;
+          z-index: 5;
+          inset: auto 0 0;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
+          background: #fff;
+          border-top: 1px solid var(--border);
+        }
+        .mobile-nav button {
+          padding: 7px 3px;
+          border: 0;
+          background: transparent;
+          color: var(--muted);
+          font-size: 11px;
+        }
+        .mobile-nav button.active {
+          color: var(--blue);
+          font-weight: 750;
+        }
+        .mobile-nav span {
+          display: block;
+          font-size: 18px;
+          margin-bottom: 2px;
+        }
+        .attendance-item {
+          min-height: 58px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <aside>
+        <div class="brand"><span class="ball">🏐</span> Vôlei+</div>
+        <nav class="nav" aria-label="Navegação principal">
+          <button data-go="dashboard" class="active">⌂ &nbsp; Início</button>
+          <button data-go="teams">◉ &nbsp; Equipes</button>
+          <button data-go="athletes">♙ &nbsp; Atletas</button>
+          <button data-go="trainings">▦ &nbsp; Treinos</button>
+          <button data-go="evolution">⌁ &nbsp; Evolução</button>
+        </nav>
+      </aside>
+      <main>
+        <header>
+          <strong>Área do treinador</strong
+          ><span class="user">Demonstração · dados fictícios</span>
+        </header>
+        <div class="content">
+          <section class="screen active" id="dashboard">
+            <h1>Bom treino, treinador!</h1>
+            <p class="intro">
+              Acompanhe equipes, treinos e evolução em um só lugar.
+            </p>
+            <div class="grid">
+              <article class="card metric">
+                <span>Equipes ativas</span><strong>2</strong
+                ><span>Suas equipes</span>
+              </article>
+              <article class="card metric">
+                <span>Atletas</span><strong>24</strong
+                ><span>Nas equipes ativas</span>
+              </article>
+              <article class="card metric">
+                <span>Próximo treino</span><strong>18h</strong
+                ><span>Hoje · Quadra principal</span>
+              </article>
+            </div>
+            <div class="row">
+              <h2>Continue de onde parou</h2>
+              <button class="button secondary" data-go="teams">
+                Ver equipes
+              </button>
+            </div>
+            <article class="card">
+              <h3>Equipe Aurora</h3>
+              <p>12 atletas · Sub-17</p>
+              <p>Próximo treino: hoje, às 18h</p>
+              <div class="card-actions">
+                <button class="button" data-go="trainings">Abrir treinos</button
+                ><button class="button secondary" data-go="athletes">
+                  Ver atletas
+                </button>
+              </div>
+            </article>
+          </section>
+          <section class="screen" id="teams">
+            <h1>Equipes</h1>
+            <p class="intro">
+              Gerencie suas equipes e acesse os dados de cada grupo.
+            </p>
+            <div class="row">
+              <h2>Minhas equipes</h2>
+              <button class="button" data-toast="Formulário de nova equipe">
+                ＋ Nova equipe
+              </button>
+            </div>
+            <div class="grid">
+              <article class="card">
+                <h3>Equipe Aurora</h3>
+                <p>Sub-17 · 12 atletas</p>
+                <p><span class="badge">Ativa</span></p>
+                <div class="card-actions">
+                  <button class="button" data-go="athletes">Atletas</button
+                  ><button class="button secondary" data-go="trainings">
+                    Treinos
+                  </button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Equipe Horizonte</h3>
+                <p>Adulto · 12 atletas</p>
+                <p><span class="badge">Ativa</span></p>
+                <div class="card-actions">
+                  <button class="button" data-go="athletes">Atletas</button
+                  ><button class="button secondary" data-go="trainings">
+                    Treinos
+                  </button>
+                </div>
+              </article>
+            </div>
+          </section>
+          <section class="screen" id="athletes">
+            <h1>Atletas</h1>
+            <p class="intro">Equipe Aurora · elenco ativo</p>
+            <div class="row">
+              <h2>Elenco</h2>
+              <button class="button" data-toast="Formulário de novo atleta">
+                ＋ Novo atleta
+              </button>
+            </div>
+            <div class="grid">
+              <article class="card">
+                <h3>Ana Souza</h3>
+                <p>Ponteira · camisa 7</p>
+                <p><span class="badge">Ativa</span></p>
+                <div class="card-actions">
+                  <button class="button secondary" data-go="profile">
+                    Abrir perfil</button
+                  ><button class="button ghost" data-go="evaluation">
+                    Avaliar
+                  </button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Bruna Lima</h3>
+                <p>Levantadora · camisa 3</p>
+                <p><span class="badge">Ativa</span></p>
+                <div class="card-actions">
+                  <button class="button secondary" data-go="profile">
+                    Abrir perfil</button
+                  ><button class="button ghost" data-go="evaluation">
+                    Avaliar
+                  </button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Camila Reis</h3>
+                <p>Líbero · camisa 12</p>
+                <p><span class="badge">Ativa</span></p>
+                <div class="card-actions">
+                  <button class="button secondary" data-go="profile">
+                    Abrir perfil</button
+                  ><button class="button ghost" data-go="evaluation">
+                    Avaliar
+                  </button>
+                </div>
+              </article>
+            </div>
+          </section>
+          <section class="screen" id="trainings">
+            <h1>Treinos</h1>
+            <p class="intro">Equipe Aurora · agenda em ordem cronológica</p>
+            <div class="row">
+              <h2>Próximos e recentes</h2>
+              <button class="button" data-toast="Formulário de novo treino">
+                ＋ Novo treino
+              </button>
+            </div>
+            <div class="grid">
+              <article class="card">
+                <h3>Hoje · 18:00</h3>
+                <p>Fundamentos de recepção</p>
+                <p>Quadra principal · 90 min</p>
+                <div class="card-actions">
+                  <button class="button" data-go="attendance">
+                    Fazer chamada</button
+                  ><button class="button secondary" data-go="attendance">
+                    Corrigir chamada
+                  </button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Segunda · 18:00</h3>
+                <p>Saque e transição</p>
+                <p>Quadra principal · 90 min</p>
+                <div class="card-actions">
+                  <button class="button" data-go="attendance">
+                    Ver chamada
+                  </button>
+                </div>
+              </article>
+            </div>
+          </section>
+          <section class="screen" id="attendance">
+            <h1>Chamada</h1>
+            <p class="intro">
+              Hoje, 18:00 · Equipe Aurora · marque cada atleta em um toque.
+            </p>
+            <div class="toolbar" style="margin: 0 0 14px">
+              <button class="button secondary" id="mark-all">
+                Marcar todos presentes</button
+              ><span class="notice" id="counts">2 presentes · 1 ausente</span>
+            </div>
+            <div class="attendance-list">
+              <div class="attendance-item">
+                <label><input type="checkbox" checked /> Ana Souza</label
+                ><span>Presente</span>
+              </div>
+              <div class="attendance-item">
+                <label><input type="checkbox" checked /> Bruna Lima</label
+                ><span>Presente</span>
+              </div>
+              <div class="attendance-item">
+                <label><input type="checkbox" /> Camila Reis</label
+                ><span>Ausente</span>
+              </div>
+            </div>
+            <div class="row">
+              <button class="button ghost" data-go="trainings">
+                Voltar aos treinos</button
+              ><button class="button" id="save-attendance">
+                Salvar chamada
+              </button>
+            </div>
+          </section>
+          <section class="screen" id="evaluation">
+            <h1>Avaliação de fundamentos</h1>
+            <p class="intro">Ana Souza · escala de 1 a 5</p>
+            <div class="grid">
+              <article class="card">
+                <h3>Passe</h3>
+                <div class="toolbar" data-rating="Passe">
+                  <button class="button secondary">1</button
+                  ><button class="button secondary">2</button
+                  ><button class="button secondary">3</button
+                  ><button class="button secondary">4</button
+                  ><button class="button secondary">5</button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Saque</h3>
+                <div class="toolbar" data-rating="Saque">
+                  <button class="button secondary">1</button
+                  ><button class="button secondary">2</button
+                  ><button class="button secondary">3</button
+                  ><button class="button secondary">4</button
+                  ><button class="button secondary">5</button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Ataque</h3>
+                <div class="toolbar" data-rating="Ataque">
+                  <button class="button secondary">1</button
+                  ><button class="button secondary">2</button
+                  ><button class="button secondary">3</button
+                  ><button class="button secondary">4</button
+                  ><button class="button secondary">5</button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Bloqueio</h3>
+                <div class="toolbar" data-rating="Bloqueio">
+                  <button class="button secondary">1</button
+                  ><button class="button secondary">2</button
+                  ><button class="button secondary">3</button
+                  ><button class="button secondary">4</button
+                  ><button class="button secondary">5</button>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Defesa</h3>
+                <div class="toolbar" data-rating="Defesa">
+                  <button class="button secondary">1</button
+                  ><button class="button secondary">2</button
+                  ><button class="button secondary">3</button
+                  ><button class="button secondary">4</button
+                  ><button class="button secondary">5</button>
+                </div>
+              </article>
+            </div>
+            <div class="row">
+              <button class="button" data-toast="Avaliação salva no protótipo">
+                Salvar avaliação</button
+              ><button class="button ghost" data-go="profile">Cancelar</button>
+            </div>
+          </section>
+          <section class="screen" id="profile">
+            <h1>Ana Souza</h1>
+            <p class="intro">Ponteira · Equipe Aurora · atleta fictícia</p>
+            <div class="grid">
+              <article class="card metric">
+                <span>Presença nos últimos 30 dias</span><strong>85%</strong
+                ><span>6 de 7 treinos</span>
+              </article>
+              <article class="card metric">
+                <span>Avaliações registradas</span><strong>3</strong
+                ><span>Última: esta semana</span>
+              </article>
+            </div>
+            <div class="row">
+              <h2>Histórico recente</h2>
+              <button class="button" data-go="evaluation">
+                ＋ Nova avaliação
+              </button>
+            </div>
+            <article class="card">
+              <h3>Avaliação · esta semana</h3>
+              <p>Passe 4 · Saque 3 · Ataque 4 · Bloqueio 3 · Defesa 4</p>
+              <p>Boa evolução na recepção.</p>
+              <div class="card-actions">
+                <button class="button secondary" data-go="evolution">
+                  Ver evolução
+                </button>
+              </div>
+            </article>
+          </section>
+          <section class="screen" id="evolution">
+            <h1>Evolução</h1>
+            <p class="intro">Ana Souza · notas fictícias ao longo do tempo</p>
+            <div class="grid">
+              <article class="card">
+                <h3>Passe</h3>
+                <div class="chart">
+                  <div class="bar" style="height: 45%"><span>Mar</span></div>
+                  <div class="bar" style="height: 65%"><span>Abr</span></div>
+                  <div class="bar" style="height: 82%"><span>Mai</span></div>
+                </div>
+              </article>
+              <article class="card">
+                <h3>Presença</h3>
+                <div class="metric">
+                  <strong>85%</strong><span>Últimos 30 dias</span>
+                </div>
+                <p class="notice">
+                  Com menos de duas avaliações, a tendência não é exibida.
+                </p>
+              </article>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <nav class="mobile-nav" aria-label="Navegação móvel">
+      <button data-go="dashboard" class="active"><span>⌂</span>Início</button
+      ><button data-go="teams"><span>◉</span>Equipes</button
+      ><button data-go="athletes"><span>♙</span>Atletas</button
+      ><button data-go="trainings"><span>▦</span>Treinos</button
+      ><button data-go="evolution"><span>⌁</span>Evolução</button>
+    </nav>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const screens = [...document.querySelectorAll(".screen")];
+      const navButtons = [...document.querySelectorAll("[data-go]")];
+      const toast = document.querySelector("#toast");
+      let toastTimer;
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+      function goTo(id) {
+        screens.forEach((screen) =>
+          screen.classList.toggle("active", screen.id === id),
+        );
+        navButtons.forEach((button) =>
+          button.classList.toggle("active", button.dataset.go === id),
+        );
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      navButtons.forEach((button) =>
+        button.addEventListener("click", () => goTo(button.dataset.go)),
+      );
+      document
+        .querySelectorAll("[data-toast]")
+        .forEach((button) =>
+          button.addEventListener("click", () =>
+            showToast(button.dataset.toast),
+          ),
+        );
+      document.querySelector("#mark-all").addEventListener("click", () => {
+        document.querySelectorAll(".attendance-item input").forEach((input) => {
+          input.checked = true;
+        });
+        updateCounts();
+      });
+      function updateCounts() {
+        const boxes = [...document.querySelectorAll(".attendance-item input")];
+        const present = boxes.filter((input) => input.checked).length;
+        document.querySelector("#counts").textContent =
+          `${present} presentes · ${boxes.length - present} ausentes`;
+        boxes.forEach((input) => {
+          input.closest(".attendance-item").lastElementChild.textContent =
+            input.checked ? "Presente" : "Ausente";
+        });
+      }
+      document
+        .querySelectorAll(".attendance-item input")
+        .forEach((input) => input.addEventListener("change", updateCounts));
+      document
+        .querySelector("#save-attendance")
+        .addEventListener("click", () =>
+          showToast("Chamada salva no protótipo"),
+        );
+      document.querySelectorAll("[data-rating] button").forEach((button) =>
+        button.addEventListener("click", () => {
+          button.parentElement.querySelectorAll("button").forEach((item) => {
+            item.classList.add("secondary");
+            item.classList.remove("selected");
+          });
+          button.classList.remove("secondary");
+          button.classList.add("selected");
+        }),
+      );
+    </script>
+  </body>
+</html>
