@@ -1,0 +1,516 @@
+.profile-container {
+  max-width: 100%;
+  padding-bottom: 2rem;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #1a1a2e, #2d2d4a);
+  color: white;
+  border-radius: 0 0 24px 24px;
+}
+
+@media (min-width: 640px) {
+  .profile-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.athlete-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.athlete-avatar-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.athlete-details h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.athlete-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.athlete-meta .position {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.athlete-meta .age,
+.athlete-meta .number {
+  opacity: 0.9;
+}
+
+.athlete-meta .status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.athlete-meta .status.active {
+  background: rgba(40, 167, 69, 0.3);
+  color: #d4edda;
+}
+
+.athlete-meta .status.inactive {
+  background: rgba(220, 53, 69, 0.3);
+  color: #f8d7da;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.profile-actions .btn {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* Tabs */
+.profile-tabs {
+  display: flex;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+  position: relative;
+}
+
+.tab-btn:hover {
+  color: #1a1a2e;
+  background: #f8f9fa;
+}
+
+.tab-btn.active {
+  color: #1a1a2e;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #1a1a2e;
+  border-radius: 3px 3px 0 0;
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid #1a1a2e;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.profile-content {
+  padding: 1.5rem;
+}
+
+.tab-panel {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 12px;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.stat-value-large {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-detail {
+  font-size: 0.7rem;
+  color: #999;
+}
+
+/* Latest Evaluation */
+.latest-evaluation {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.latest-evaluation h2 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.evaluation-summary {
+  margin-bottom: 1.5rem;
+}
+
+.evaluation-date {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.fundamentals-mini {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.fundamental-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.fundamental-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.stars {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.stars span {
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.stars span.filled {
+  color: #ffc107;
+}
+
+.evaluation-notes {
+  margin: 1rem 0 0;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #444;
+  font-style: italic;
+  border-left: 3px solid #1a1a2e;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* Empty State Inline */
+.empty-state-inline {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.empty-state-inline p {
+  margin: 0 0 1.5rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.empty-icon-large {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-inline h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+/* Evaluations List */
+.evaluations-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.evaluation-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.evaluation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.evaluation-date {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a1a2e;
+}
+
+.evaluation-average {
+  font-size: 0.85rem;
+  color: #666;
+  background: #f0f0f0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+.evaluation-item .fundamentals-mini {
+  margin-bottom: 0.75rem;
+}
+
+.evaluation-item .fundamental-label {
+  font-size: 0.65rem;
+}
+
+.btn-small {
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8rem;
+  min-height: 36px;
+}
+
+/* Evolution Charts */
+.evolution-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.chart-card h3 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.chart-svg {
+  width: 100%;
+  height: 200px;
+  display: block;
+}
+
+.chart-grid line {
+  stroke-dasharray: 4;
+}
+
+.chart-labels text {
+  font-family: system-ui, sans-serif;
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  color: #dc3545;
+}
+
+.error-state .btn {
+  margin-top: 1rem;
+}
+
+/* Skeleton */
+.profile-skeleton {
+  padding: 1.5rem;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .profile-header {
+    padding: 1rem;
+  }
+
+  .athlete-avatar-large {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+
+  .athlete-details h1 {
+    font-size: 1.25rem;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+  }
+
+  .profile-actions .btn {
+    width: 100%;
+  }
+
+  .profile-tabs {
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    white-space: nowrap;
+    padding: 0.875rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .profile-content {
+    padding: 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fundamentals-mini {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.25rem;
+  }
+
+  .fundamental-mini {
+    padding: 0.375rem;
+  }
+
+  .stars {
+    gap: 0;
+  }
+
+  .stars span {
+    font-size: 0.85rem;
+  }
+}
