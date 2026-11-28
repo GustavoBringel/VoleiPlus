@@ -3,9 +3,8 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App', () => {
-  it('renders without crashing', () => {
+  it('renders the login page without crashing', async () => {
     render(<App />);
-    // App redirects to login when not authenticated
-    expect(screen.getByRole('heading', { name: 'Entrar' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Entrar' })).toBeInTheDocument();
   });
 });
