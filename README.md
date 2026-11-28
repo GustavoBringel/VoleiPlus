@@ -100,7 +100,7 @@ _A preencher quando houver código._ Esta seção deve conter:
 
 Resumo abaixo; o passo a passo completo está no [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- Branch principal protegida: `main`.
+- Branch principal protegida: `develop`.
 - Cada tarefa em uma branch própria (`feat/nome`, `fix/nome`, `docs/nome`).
 - Alterações entram por _pull request_, revisado pelo outro integrante.
 - Mensagens de commit objetivas, de preferência no padrão _Conventional Commits_ (`feat:`, `fix:`, `docs:`).
