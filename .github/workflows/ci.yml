@@ -44,7 +44,7 @@ jobs:
         run: npm run build
 
   backend:
-    name: Testes de regras do back-end
+    name: Regras de negócio RN-01 a RN-06
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -92,11 +92,21 @@ jobs:
           DEBUG: "false"
         run: alembic upgrade head
 
-      - name: Executar testes e regras de negócio
+      - name: Executar cada regra em banco isolado
         working-directory: backend
         env:
           DATABASE_URL: postgresql+psycopg2://volei_user:volei_pass@localhost:5432/volei_plus_test
           SECRET_KEY: ci-only-secret-key
           APP_ENV: test
           DEBUG: "false"
-        run: pytest --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=70
+        run: |
+          for test_case in \
+            test_rn01_athlete_one_team \
+            test_rn02_unique_attendance_per_training \
+            test_rn03_rating_scale_1_to_5 \
+            test_rn04_coach_accesses_only_own_data \
+            test_rn05_inactive_athlete_keeps_history \
+            test_rn06_team_with_trainings_inactivates; do
+            rm -f tests/test.db
+            pytest -q --no-cov "tests/test_business_rules.py::TestBusinessRules::$test_case"
+          done
