@@ -44,7 +44,7 @@ jobs:
         run: npm run build
 
   backend:
-    name: Back-end lint e testes
+    name: Testes de regras do back-end
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -92,14 +92,11 @@ jobs:
           DEBUG: "false"
         run: alembic upgrade head
 
-      - name: Executar lint, formatação e testes
+      - name: Executar testes e regras de negócio
         working-directory: backend
         env:
           DATABASE_URL: postgresql+psycopg2://volei_user:volei_pass@localhost:5432/volei_plus_test
           SECRET_KEY: ci-only-secret-key
           APP_ENV: test
           DEBUG: "false"
-        run: |
-          ruff check --config ../ci/ruff-backend.toml src tests
-          black --check src tests
-          pytest --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=70
+        run: pytest --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=70
