@@ -107,6 +107,6 @@ jobs:
             test_rn04_coach_accesses_only_own_data \
             test_rn05_inactive_athlete_keeps_history \
             test_rn06_team_with_trainings_inactivates; do
-            rm -f tests/test.db
-            pytest -q --no-cov "tests/test_business_rules.py::TestBusinessRules::$test_case"
+            rm -f src/tests/test.db
+            pytest -q --no-cov "src/tests/test_business_rules.py::TestBusinessRules::$test_case"
           done
